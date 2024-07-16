@@ -53,7 +53,8 @@ public class CategoryServiceImpl implements CategoryService{
         category.setImg(categoryDetails.getImg());
         category.setRating(categoryDetails.getRating());
         category.setGender(categoryDetails.getGender());
-        return categoryMapper.toDTO(categoryRepository.save(category));
+        categoryMapper.toDTO(categoryRepository.save(category));
+        throw new ApiException("Category successfully updated with id: " + id, HttpStatus.OK);
     }
 
     @Override
@@ -62,7 +63,6 @@ public class CategoryServiceImpl implements CategoryService{
             throw new ApiException("Category not found with id: " + id, HttpStatus.NOT_FOUND);
         }
         categoryRepository.deleteById(id);
-        throw new ApiException("Category successfully deleted with id: " + id, HttpStatus.OK);
     }
 
     @Override

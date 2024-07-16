@@ -1,9 +1,12 @@
 package com.workintech.ecommerce.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -31,4 +34,16 @@ public class Category {
 
     @Column(name = "gender", nullable = false)
     private String gender;
+
+    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
+    private List<Product> products;
+
+    public Category(Long id, String code, String title, String img, Double rating, String gender) {
+        this.id = id;
+        this.code = code;
+        this.title = title;
+        this.img = img;
+        this.rating = rating;
+        this.gender = gender;
+    }
 }
