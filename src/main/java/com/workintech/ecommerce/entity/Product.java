@@ -5,6 +5,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -44,4 +47,9 @@ public class Product {
 
     @Column(name = "images", nullable = false)
     private String imageUrls;
+
+    @ManyToMany(mappedBy = "products")
+    private List<Order> orders = new ArrayList<>();
+
+
 }

@@ -8,6 +8,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -44,4 +46,8 @@ public class ProductDTO {
     @NotEmpty(message = "Images can not be null or empty")
     @Size(min = 10, max=200, message = "Images must be between 10 to 200")
     private String images;
+
+    @JsonProperty("order_id")
+    private List<Long> orderIds;
+
 }
