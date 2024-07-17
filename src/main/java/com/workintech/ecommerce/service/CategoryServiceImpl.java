@@ -5,6 +5,7 @@ import com.workintech.ecommerce.entity.Category;
 import com.workintech.ecommerce.exceptions.ApiException;
 import com.workintech.ecommerce.mapper.CategoryMapper;
 import com.workintech.ecommerce.repository.CategoryRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -38,12 +39,17 @@ public class CategoryServiceImpl implements CategoryService{
         return categoryMapper.toDTO(category);
     }
 
+    @Transactional
     @Override
     public CategoryDTO createCategory(CategoryDTO categoryDTO) {
+        if (categoryDTO.getId() != null && categoryRepository.existsById(categoryDTO.getId())) {
+            throw new ApiException("Category already exists with id: " + categoryDTO.getId(), HttpStatus.BAD_REQUEST);
+        }
         Category category = categoryMapper.toEntity(categoryDTO);
         return categoryMapper.toDTO(categoryRepository.save(category));
     }
 
+    @Transactional
     @Override
     public CategoryDTO updateCategory(Long id, CategoryDTO categoryDetails) {
         Category category = categoryRepository.findById(id)
@@ -57,6 +63,7 @@ public class CategoryServiceImpl implements CategoryService{
         throw new ApiException("Category successfully updated with id: " + id, HttpStatus.OK);
     }
 
+    @Transactional
     @Override
     public void deleteCategory(Long id) {
         if (!categoryRepository.existsById(id)) {

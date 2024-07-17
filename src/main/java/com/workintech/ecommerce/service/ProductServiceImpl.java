@@ -7,6 +7,7 @@ import com.workintech.ecommerce.exceptions.ApiException;
 import com.workintech.ecommerce.mapper.ProductMapper;
 import com.workintech.ecommerce.repository.CategoryRepository;
 import com.workintech.ecommerce.repository.ProductRepository;
+import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -44,14 +45,19 @@ public class ProductServiceImpl implements ProductService{
         return productMapper.toDTO(product);
     }
 
+    @Transactional
     @Override
     public ProductDTO createProduct(ProductDTO productDTO) {
+        if (productDTO.getId() != null && productRepository.existsById(productDTO.getId())) {
+            throw new ApiException("Product already exists with id: " + productDTO.getId(), HttpStatus.BAD_REQUEST);
+        }
         Category category = categoryRepository.findById(productDTO.getCategoryId())
                 .orElseThrow(() -> new ApiException("Category not found with id: " + productDTO.getCategoryId(), HttpStatus.NOT_FOUND));
         Product product = productMapper.toEntity(productDTO, category);
         return productMapper.toDTO(productRepository.save(product));
     }
 
+    @Transactional
     @Override
     public ProductDTO updateProduct(Long id, ProductDTO productDetails) {
         Product product = productRepository.findById(id)
@@ -71,6 +77,7 @@ public class ProductServiceImpl implements ProductService{
         throw new ApiException("Product successfully updated with id: " + id, HttpStatus.OK);
     }
 
+    @Transactional
     @Override
     public void deleteProduct(Long id) {
         if (!productRepository.existsById(id)) {

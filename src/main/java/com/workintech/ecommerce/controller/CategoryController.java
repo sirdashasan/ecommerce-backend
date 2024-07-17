@@ -3,6 +3,7 @@ package com.workintech.ecommerce.controller;
 import com.workintech.ecommerce.dto.CategoryDTO;
 import com.workintech.ecommerce.entity.Category;
 import com.workintech.ecommerce.service.CategoryService;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -33,7 +34,7 @@ public class CategoryController {
     }
 
     @PostMapping
-    public CategoryDTO createCategory(@RequestBody CategoryDTO categoryDTO) {
+    public CategoryDTO createCategory(@Valid @RequestBody CategoryDTO categoryDTO) {
         return categoryService.createCategory(categoryDTO);
     }
 

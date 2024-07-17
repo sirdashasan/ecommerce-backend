@@ -2,6 +2,7 @@ package com.workintech.ecommerce.controller;
 
 import com.workintech.ecommerce.dto.ProductDTO;
 import com.workintech.ecommerce.service.ProductService;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -32,7 +33,7 @@ public class ProductController {
     }
 
     @PostMapping
-    public ProductDTO createProduct(@RequestBody ProductDTO productDTO) {
+    public ProductDTO createProduct(@Valid @RequestBody ProductDTO productDTO) {
         return productService.createProduct(productDTO);
     }
 
