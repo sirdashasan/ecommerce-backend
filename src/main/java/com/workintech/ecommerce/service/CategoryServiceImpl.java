@@ -39,7 +39,7 @@ public class CategoryServiceImpl implements CategoryService{
         return categoryMapper.toDTO(category);
     }
 
-    @Transactional
+
     @Override
     public CategoryDTO createCategory(CategoryDTO categoryDTO) {
         if (categoryDTO.getId() != null && categoryRepository.existsById(categoryDTO.getId())) {
@@ -49,7 +49,7 @@ public class CategoryServiceImpl implements CategoryService{
         return categoryMapper.toDTO(categoryRepository.save(category));
     }
 
-    @Transactional
+
     @Override
     public CategoryDTO updateCategory(Long id, CategoryDTO categoryDetails) {
         Category category = categoryRepository.findById(id)
@@ -63,7 +63,7 @@ public class CategoryServiceImpl implements CategoryService{
         throw new ApiException("Category successfully updated with id: " + id, HttpStatus.OK);
     }
 
-    @Transactional
+
     @Override
     public void deleteCategory(Long id) {
         if (!categoryRepository.existsById(id)) {

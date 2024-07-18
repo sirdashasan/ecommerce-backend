@@ -50,7 +50,7 @@ public class ProductServiceImpl implements ProductService{
         return productMapper.toDTO(product);
     }
 
-    @Transactional
+
     @Override
     public ProductDTO createProduct(ProductDTO productDTO) {
         if (productDTO.getId() != null && productRepository.existsById(productDTO.getId())) {
@@ -65,7 +65,7 @@ public class ProductServiceImpl implements ProductService{
         return productMapper.toDTO(productRepository.save(product));
     }
 
-    @Transactional
+
     @Override
     public ProductDTO updateProduct(Long id, ProductDTO productDetails) {
         Product product = productRepository.findById(id)
@@ -88,7 +88,7 @@ public class ProductServiceImpl implements ProductService{
         return productMapper.toDTO(productRepository.save(product));
     }
 
-    @Transactional
+
     @Override
     public void deleteProduct(Long id) {
         if (!productRepository.existsById(id)) {
