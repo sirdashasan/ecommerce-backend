@@ -46,7 +46,7 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public OrderDTO getOrderById(Long id) {
         Order order = orderRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Order not found"));
+                .orElseThrow(() -> new ApiException("Order not found with id: " + id, HttpStatus.NOT_FOUND));
         return orderMapper.toDTO(order);
     }
 
@@ -74,13 +74,14 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public OrderDTO updateOrder(Long id, OrderDTO orderDetails) {
         Order existingOrder = orderRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Order not found"));
+                .orElseThrow(() -> new ApiException("Order not found with id: " + id, HttpStatus.NOT_FOUND));
         User user = userRepository.findById(orderDetails.getUserId())
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new ApiException("User not found with id: " + orderDetails.getUserId(), HttpStatus.NOT_FOUND));
+
         List<Product> products = productRepository.findAllById(orderDetails.getProductIds());
 
         if (products.size() != orderDetails.getProductIds().size()) {
-            throw new RuntimeException("Some products not found");
+            throw new ApiException("Some products not found", HttpStatus.NOT_FOUND);
         }
 
         existingOrder.setUser(user);
@@ -95,7 +96,7 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public void deleteOrder(Long id) {
         Order existingOrder = orderRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Order not found"));
+                .orElseThrow(() -> new ApiException("Order not found with id: " + id, HttpStatus.NOT_FOUND));
         orderRepository.delete(existingOrder);
     }
 }

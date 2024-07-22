@@ -60,7 +60,7 @@ public class ProductServiceImpl implements ProductService{
                 .orElseThrow(() -> new ApiException("Category not found with id: " + productDTO.getCategoryId(), HttpStatus.NOT_FOUND));
 
         List<Order> orders = productDTO.getOrderIds() != null ?
-                orderRepository.findAllById(productDTO.getOrderIds()) : Collections.emptyList(); // null kontrolü ekleyin
+                orderRepository.findAllById(productDTO.getOrderIds()) : Collections.emptyList();
         Product product = productMapper.toEntity(productDTO, category, orders);
         return productMapper.toDTO(productRepository.save(product));
     }

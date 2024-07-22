@@ -48,7 +48,7 @@ public class Product {
     @Column(name = "images", nullable = false)
     private String imageUrls;
 
-    @ManyToMany(mappedBy = "products")
+    @ManyToMany(mappedBy = "products", cascade = {CascadeType.MERGE,CascadeType.PERSIST,CascadeType.DETACH,CascadeType.REFRESH})
     private List<Order> orders = new ArrayList<>();
 
 
